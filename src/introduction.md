@@ -1,5 +1,5 @@
-<div align="center">
-  <img src="nymble-icon.png" alt="Nymble" width="120">
+<div style="text-align:center; margin-bottom:24px;">
+  <canvas id="nymbleIcon" width="140" height="140" style="border-radius:22.5%; filter:drop-shadow(0 0 40px rgba(224,152,0,0.25));"></canvas>
 </div>
 
 # Nymble Type
