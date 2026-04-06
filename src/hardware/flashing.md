@@ -75,7 +75,18 @@ Type `PING` and press Enter. The response should be:
 OK:PONG
 ```
 
-The onboard LED will blink twice. Your device is ready.
+The onboard LED will blink twice. Try a few more commands:
+
+```
+TYPE:Hello world          → OK:TYPED   (types "Hello world")
+KEY:ENTER                 → OK:KEY     (presses Enter)
+COMBO:CTRL+A              → OK:COMBO   (select all)
+SPEED:50                  → OK:SPEED   (50ms between keys)
+TYPE:this types slowly    → OK:TYPED
+SPEED:0                   → OK:SPEED   (back to fastest)
+```
+
+Your device is ready.
 
 > **To exit screen:** press `Ctrl+A` then `K`, then confirm with `Y`.
 

@@ -88,13 +88,18 @@ Two CircuitPython files on the device:
 ### Serial protocol
 
 ```
-→ TYPE:Hello world     ← OK:TYPED
-→ KEY:ENTER            ← OK:KEY
-→ PING                 ← OK:PONG
-→ Hello world          ← OK:TYPED  (raw text treated as TYPE)
+→ TYPE:Hello world     ← OK:TYPED      Type text as keystrokes
+→ KEY:ENTER            ← OK:KEY        Press a special key
+→ COMBO:CTRL+A         ← OK:COMBO      Press a key combination
+→ HOLD:SHIFT           ← OK:HOLD       Hold a key down
+→ RELEASE              ← OK:RELEASE    Release all held keys
+→ SPEED:50             ← OK:SPEED      Set inter-key delay (ms)
+→ DELAY:1000           ← OK:DELAY      Pause for 1 second
+→ PING                 ← OK:PONG       Health check
+→ Hello world          ← OK:TYPED      Raw text treated as TYPE
 ```
 
-The protocol is intentionally trivial — newline-delimited, human-readable, easy to debug with `screen` or `minicom`.
+The protocol is intentionally trivial — newline-delimited, human-readable, easy to debug with `screen` or `minicom`. Every command gets an `OK:` response when complete, so the relay knows when to send the next one.
 
 ### Device detection
 

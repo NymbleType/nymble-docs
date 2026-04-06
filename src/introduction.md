@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="nymble-icon.png" alt="Nymble" width="120">
+</div>
+
 # Nymble Type
 
 **An open source text-to-keystroke pipeline.**
