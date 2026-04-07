@@ -32,11 +32,19 @@ nymble-relay-windows-x86_64.exe --help
 
 ## Install from PyPI
 
+We recommend using a [virtual environment](https://docs.python.org/3/library/venv.html) to keep dependencies isolated:
+
 ```bash
+python3 -m venv .venv
+source .venv/bin/activate          # Linux/macOS
+# .venv\Scripts\activate           # Windows
+
 pip install nymble-relay
 ```
 
 This installs the relay daemon with WebSocket server, Unix socket listener, and clipboard/xdotool output support. Serial communication with the RP2040 HID device requires `pyserial`, which is included by default.
+
+> **What's a virtual environment?** It's an isolated Python installation just for this project. Your system Python stays untouched, and you avoid version conflicts with other tools. Activate it each time you open a new terminal with `source .venv/bin/activate` (or `.venv\Scripts\activate` on Windows).
 
 ## Run from source
 
@@ -44,7 +52,8 @@ This installs the relay daemon with WebSocket server, Unix socket listener, and 
 git clone https://github.com/NymbleType/nymble-relay.git
 cd nymble-relay
 python3 -m venv .venv
-source .venv/bin/activate
+source .venv/bin/activate          # Linux/macOS
+# .venv\Scripts\activate           # Windows
 pip install -e .
 ```
 
