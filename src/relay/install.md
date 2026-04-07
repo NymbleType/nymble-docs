@@ -44,6 +44,16 @@ pip install nymble-relay
 
 This installs the relay daemon with WebSocket server, Unix socket listener, and clipboard/xdotool output support. Serial communication with the RP2040 HID device requires `pyserial`, which is included by default.
 
+Once installed, run it directly from the terminal:
+
+```bash
+nymble-relay --help                # show all options
+nymble-relay                       # start the relay daemon
+nymble-relay --generate-token      # generate an auth token
+```
+
+> **Remember:** You need to activate the venv each time you open a new terminal — otherwise the `nymble-relay` command won't be found. Just run `source .venv/bin/activate` (or `.venv\Scripts\activate` on Windows) before using it.
+
 > **What's a virtual environment?** It's an isolated Python installation just for this project. Your system Python stays untouched, and you avoid version conflicts with other tools. Activate it each time you open a new terminal with `source .venv/bin/activate` (or `.venv\Scripts\activate` on Windows).
 
 ## Run from source
