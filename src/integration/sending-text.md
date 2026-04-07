@@ -8,7 +8,7 @@ Just send plain text after authenticating. No JSON required:
 
 ```bash
 TOKEN="your-auth-token-here"
-(echo "$TOKEN"; echo "Hello from Nymble!") | nc -U ~/.nymble/relay.sock
+(echo "$TOKEN"; echo "Hello from Nymble!") | nc -N -U ~/.nymble/relay.sock
 ```
 
 That's it. The text gets typed.
@@ -21,7 +21,7 @@ TOKEN="your-auth-token-here"
 SOCKET="$HOME/.nymble/relay.sock"
 
 nymble_send() {
-  (echo "$TOKEN"; echo "$1") | nc -U "$SOCKET"
+  (echo "$TOKEN"; echo "$1") | nc -N -U "$SOCKET"
 }
 
 # Simple text
@@ -123,7 +123,7 @@ Drop this in your `.bashrc` for a quick `ntype` command:
 ntype() {
   local token="your-auth-token-here"
   printf '%s\n{"type": "transcript", "text": "%s"}\n' "$token" "$*" \
-    | nc -U ~/.nymble/relay.sock
+    | nc -N -U ~/.nymble/relay.sock
 }
 
 # Usage:
@@ -135,16 +135,16 @@ ntype() {
 
 ```bash
 # Select all
-(echo "$TOKEN"; echo '{"type":"combo","keys":"CTRL+A"}') | nc -U ~/.nymble/relay.sock
+(echo "$TOKEN"; echo '{"type":"combo","keys":"CTRL+A"}') | nc -N -U ~/.nymble/relay.sock
 
 # Copy
-(echo "$TOKEN"; echo '{"type":"combo","keys":["CTRL","C"]}') | nc -U ~/.nymble/relay.sock
+(echo "$TOKEN"; echo '{"type":"combo","keys":["CTRL","C"]}') | nc -N -U ~/.nymble/relay.sock
 
 # Paste
-(echo "$TOKEN"; echo '{"type":"combo","keys":["CTRL","V"]}') | nc -U ~/.nymble/relay.sock
+(echo "$TOKEN"; echo '{"type":"combo","keys":["CTRL","V"]}') | nc -N -U ~/.nymble/relay.sock
 
 # Alt+Tab (switch window)
-(echo "$TOKEN"; echo '{"type":"combo","keys":["ALT","TAB"]}') | nc -U ~/.nymble/relay.sock
+(echo "$TOKEN"; echo '{"type":"combo","keys":["ALT","TAB"]}') | nc -N -U ~/.nymble/relay.sock
 ```
 
 ## Scripted automation
@@ -165,7 +165,7 @@ Sequences let you script multi-step interactions:
     {"text": "git commit -m \"automated commit\""},
     {"key": "ENTER"}
   ]
-}') | nc -U ~/.nymble/relay.sock
+}') | nc -N -U ~/.nymble/relay.sock
 ```
 
 ### Typing speed control within a sequence
@@ -180,7 +180,7 @@ Sequences let you script multi-step interactions:
     {"text": "this types like a human at 80ms per key"},
     {"key": "ENTER"}
   ]
-}') | nc -U ~/.nymble/relay.sock
+}') | nc -N -U ~/.nymble/relay.sock
 ```
 
 Speed auto-resets to fastest after the sequence completes.
@@ -197,7 +197,7 @@ The relay is STT-agnostic. The pattern is always:
 
 ```bash
 my-stt-tool --listen | while read -r line; do
-  (echo "$TOKEN"; echo "$line") | nc -U ~/.nymble/relay.sock
+  (echo "$TOKEN"; echo "$line") | nc -N -U ~/.nymble/relay.sock
 done
 ```
 
@@ -206,7 +206,7 @@ done
 ```bash
 ffmpeg -f alsa -i default -t 5 -y /tmp/audio.wav 2>/dev/null
 TEXT=$(whisper /tmp/audio.wav --model base --output_format txt 2>/dev/null)
-(echo "$TOKEN"; echo "$TEXT") | nc -U ~/.nymble/relay.sock
+(echo "$TOKEN"; echo "$TEXT") | nc -N -U ~/.nymble/relay.sock
 ```
 
 ### HandySpeech, Whisper.cpp, Vosk, etc.
@@ -217,16 +217,16 @@ Same pattern. Get text out, send it in. No adapters needed.
 
 ```bash
 # Change typing speed on the HID device
-(echo "$TOKEN"; echo '{"type":"speed","ms":30}') | nc -U ~/.nymble/relay.sock
+(echo "$TOKEN"; echo '{"type":"speed","ms":30}') | nc -N -U ~/.nymble/relay.sock
 
 # Reset to fastest
-(echo "$TOKEN"; echo '{"type":"speed","ms":0}') | nc -U ~/.nymble/relay.sock
+(echo "$TOKEN"; echo '{"type":"speed","ms":0}') | nc -N -U ~/.nymble/relay.sock
 
 # Pause the device
-(echo "$TOKEN"; echo '{"type":"delay","ms":2000}') | nc -U ~/.nymble/relay.sock
+(echo "$TOKEN"; echo '{"type":"delay","ms":2000}') | nc -N -U ~/.nymble/relay.sock
 
 # Switch relay output to clipboard
-(echo "$TOKEN"; echo '{"type":"config","output":"clipboard"}') | nc -U ~/.nymble/relay.sock
+(echo "$TOKEN"; echo '{"type":"config","output":"clipboard"}') | nc -N -U ~/.nymble/relay.sock
 ```
 
 ## Tips

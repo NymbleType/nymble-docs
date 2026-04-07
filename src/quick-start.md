@@ -61,7 +61,7 @@ Open a text editor and click so it has focus. Then, from another terminal:
 
 ```bash
 # Via Unix socket (simplest for local use)
-(echo "YOUR_TOKEN"; echo '{"type":"transcript","text":"Hello from Nymble!"}') | nc -U ~/.nymble/relay.sock
+(echo "YOUR_TOKEN"; echo '{"type":"transcript","text":"Hello from Nymble!"}') | nc -N -U ~/.nymble/relay.sock
 ```
 
 Or via WebSocket:
