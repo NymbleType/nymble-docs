@@ -77,15 +77,35 @@ send_to_relay({
 })
 ```
 
-## WebSocket with websocat
+## WebSocket with the `websockets` CLI
 
-[websocat](https://github.com/vi/websocat) is a lightweight WebSocket CLI (`cargo install websocat` or grab a binary from its releases):
+If you installed nymble-relay via pip, you already have the `websockets` library. It includes a built-in CLI — no extra installs needed:
 
 ```bash
 TOKEN="your-auth-token-here"
 
+# Interactive session (type messages, Ctrl+D to quit)
+python3 -m websockets "ws://127.0.0.1:9200?auth=$TOKEN"
+
+# One-shot: pipe a message and disconnect
+echo '{"type":"transcript","text":"Hello from websockets CLI"}' \
+  | python3 -m websockets "ws://127.0.0.1:9200?auth=$TOKEN"
+```
+
+## WebSocket with websocat
+
+[websocat](https://github.com/vi/websocat) is a standalone WebSocket CLI. Install via snap or download a binary:
+
+```bash
+# Install
+sudo snap install websocat            # Ubuntu/Debian
+# or: cargo install websocat          # if you have Rust
+# or: download from https://github.com/vi/websocat/releases
+
+TOKEN="your-auth-token-here"
+
 # One-shot: type text and disconnect
-echo '{"type": "transcript", "text": "Hello from websocat"}' \
+echo '{"type":"transcript","text":"Hello from websocat"}' \
   | websocat "ws://127.0.0.1:9200?auth=$TOKEN"
 
 # Interactive session (type JSON lines, Ctrl+C to quit)
@@ -153,35 +173,16 @@ Sequences let you script multi-step interactions:
 
 ```bash
 # Type a command, wait for it to finish, type another
-(echo "$TOKEN"; echo '{
-  "type": "sequence",
-  "steps": [
-    {"text": "git status"},
-    {"key": "ENTER"},
-    {"delay": 2000},
-    {"text": "git add ."},
-    {"key": "ENTER"},
-    {"delay": 1000},
-    {"text": "git commit -m \"automated commit\""},
-    {"key": "ENTER"}
-  ]
-}') | nc -N -U ~/.nymble/relay.sock
+(echo "$TOKEN"; echo '{"type":"sequence","steps":[{"text":"git status"},{"key":"ENTER"},{"delay":2000},{"text":"git add ."},{"key":"ENTER"},{"delay":1000},{"text":"git commit -m \"automated commit\""},{"key":"ENTER"}]}') | nc -N -U ~/.nymble/relay.sock
 ```
 
 ### Typing speed control within a sequence
 
 ```bash
-(echo "$TOKEN"; echo '{
-  "type": "sequence",
-  "steps": [
-    {"text": "this types at full speed"},
-    {"key": "ENTER"},
-    {"speed": 80},
-    {"text": "this types like a human at 80ms per key"},
-    {"key": "ENTER"}
-  ]
-}') | nc -N -U ~/.nymble/relay.sock
+(echo "$TOKEN"; echo '{"type":"sequence","steps":[{"text":"this types at full speed"},{"key":"ENTER"},{"speed":80},{"text":"this types like a human at 80ms per key"},{"key":"ENTER"}]}') | nc -N -U ~/.nymble/relay.sock
 ```
+
+> **Important:** JSON must be on a single line. The relay reads line by line — multi-line JSON will be split and typed as raw text.
 
 Speed auto-resets to fastest after the sequence completes.
 
