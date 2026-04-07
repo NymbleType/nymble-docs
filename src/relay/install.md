@@ -1,5 +1,35 @@
 # Installation
 
+## Prebuilt Binaries (recommended)
+
+Download a standalone binary from the [latest release](https://github.com/NymbleType/nymble-relay/releases/latest) — no Python required:
+
+| Platform | File |
+|----------|------|
+| Linux x86_64 | `nymble-relay-linux-x86_64` |
+| macOS Apple Silicon | `nymble-relay-macos-arm64` |
+| Windows x86_64 | `nymble-relay-windows-x86_64.exe` |
+
+### Linux / macOS
+
+```bash
+chmod +x nymble-relay-*
+./nymble-relay-linux-x86_64 --help
+```
+
+> **macOS Gatekeeper:** On first launch, macOS may block the unsigned binary. Right-click → Open, or run:
+> ```bash
+> xattr -d com.apple.quarantine nymble-relay-macos-arm64
+> ```
+
+### Windows
+
+Download the `.exe` and run it from a terminal:
+
+```
+nymble-relay-windows-x86_64.exe --help
+```
+
 ## Install from PyPI
 
 ```bash

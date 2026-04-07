@@ -4,7 +4,7 @@ Get text typing as real keystrokes in about 10 minutes.
 
 ## What you need
 
-- A computer running **Linux, macOS, or Windows** with Python 3.10+
+- A computer running **Linux, macOS, or Windows**
 - A **Raspberry Pi Pico** (or any RP2040 board) — ~$4 from most electronics retailers
 - A **USB data cable** (not a charge-only cable)
 
@@ -23,7 +23,13 @@ Hold the **BOOTSEL** button on the Pico and plug it into your computer. It appea
 
 ## 2. Install the relay
 
+Download the binary for your OS from the [latest release](https://github.com/NymbleType/nymble-relay/releases/latest), or install via pip:
+
 ```bash
+# Option A: prebuilt binary (no Python needed)
+chmod +x nymble-relay-*    # Linux/macOS only
+
+# Option B: pip
 pip install nymble-relay
 ```
 
