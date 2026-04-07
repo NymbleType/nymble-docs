@@ -77,7 +77,43 @@ send_to_relay({
 })
 ```
 
-## From any WebSocket client
+## WebSocket with curl
+
+curl 7.86+ supports WebSocket natively — no extra tools needed:
+
+```bash
+TOKEN="your-auth-token-here"
+
+# Type a string
+echo '{"type": "transcript", "text": "Hello from curl"}' \
+  | curl --no-buffer -H "Connection: Upgrade" -H "Upgrade: websocket" \
+    "ws://127.0.0.1:9200?auth=$TOKEN" --data-binary @-
+
+# Press Enter
+echo '{"type": "key", "key": "ENTER"}' \
+  | curl --no-buffer -H "Connection: Upgrade" -H "Upgrade: websocket" \
+    "ws://127.0.0.1:9200?auth=$TOKEN" --data-binary @-
+```
+
+## WebSocket with websocat
+
+[websocat](https://github.com/vi/websocat) is a lightweight WebSocket CLI (`cargo install websocat` or grab a binary from its releases):
+
+```bash
+TOKEN="your-auth-token-here"
+
+# One-shot: type text and disconnect
+echo '{"type": "transcript", "text": "Hello from websocat"}' \
+  | websocat "ws://127.0.0.1:9200?auth=$TOKEN"
+
+# Interactive session (type JSON lines, Ctrl+C to quit)
+websocat "ws://127.0.0.1:9200?auth=$TOKEN"
+
+# Plain text — no JSON needed
+echo "Just type this" | websocat "ws://127.0.0.1:9200?auth=$TOKEN"
+```
+
+## WebSocket from Python
 
 ```python
 import asyncio
@@ -95,6 +131,22 @@ async def send(message):
         await ws.send(message)
 
 asyncio.run(send("Hello via WebSocket"))
+```
+
+## Bash helper function
+
+Drop this in your `.bashrc` for a quick `ntype` command:
+
+```bash
+ntype() {
+  local token="your-auth-token-here"
+  printf '%s\n{"type": "transcript", "text": "%s"}\n' "$token" "$*" \
+    | nc -U ~/.nymble/relay.sock
+}
+
+# Usage:
+# ntype Hello world
+# ntype "This is a sentence."
 ```
 
 ## Key combos
